@@ -12,6 +12,7 @@ import HomeIcon from '@/assets/icons/HomeIcon';
 import TicketIcon from '@/assets/icons/TicketIcon';
 import Favourite from '@/assets/icons/Favourite';
 import Sharedheader from '@/components/tabs-components/Sharedheader';
+import { StatusBar } from 'expo-status-bar';
 
 const TabsLayout = () => {
   const [activeTab, setActiveTab] = useState('homepage');
@@ -22,6 +23,7 @@ const TabsLayout = () => {
 
   return (
     <View style={{ flex: 1 , backgroundColor:"white"}}>
+      <StatusBar backgroundColor="grey"/>
       <Sharedheader activeTab={activeTab} />
       <Tabs
         initialRouteName='homepage'

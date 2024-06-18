@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 
+
 export default function RootLayout() {
   return (
     <Stack initialRouteName="(tabs)" >
@@ -9,6 +10,8 @@ export default function RootLayout() {
       <Stack.Screen name="eventdetails" options={{headerShown:false}}/>
       <Stack.Screen name="payment" options={{headerShown:false}}/>
       <Stack.Screen name="state/state" options={{headerShown:false}}/>
+      <Stack.Screen name="adplacement/adplacement" options={{headerShown:false}}/>
+      <Stack.Screen name="ticket/ticket" options={{headerShown:false}}/>
     </Stack>
   );
 }

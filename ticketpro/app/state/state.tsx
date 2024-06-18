@@ -6,7 +6,7 @@ import {
 } from "react-native-responsive-screen";
 import Sharedheader from '@/components/tabs-components/Sharedheader';
 import SearchIcon from '@/assets/icons/SearchIcon';
-import { router } from 'expo-router';
+import {useLocalSearchParams } from "expo-router";
 
 
 interface Event {
@@ -196,9 +196,12 @@ const State = () => {
         return { backgroundColor: 'green' };
     }
   };
+
+
+  const {state} = useLocalSearchParams();
   return (
     <View style={styles.container}>
-      <Sharedheader/>
+      <Sharedheader state={state}/>
       <View style={styles.innnerContainer}>
       <View style={styles.searchBar}>
           <SearchIcon />

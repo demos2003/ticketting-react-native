@@ -9,11 +9,12 @@ import {
 } from "react-native-responsive-screen";
 
 interface TabProps {
-    activeTab?: any
+    activeTab?: any;
+    state?:any
 }
 
 
-const Sharedheader: React.FC<TabProps> = ({ activeTab }) => {
+const Sharedheader: React.FC<TabProps> = ({ activeTab, state }) => {
     const containerStyle = activeTab === 'profile' ? styles.profileContainerStyle : styles.container;
 
     const renderLocationOrTabName = () => {
@@ -28,7 +29,9 @@ const Sharedheader: React.FC<TabProps> = ({ activeTab }) => {
                 return (
                     <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
                         <LocationIncon />
-                        <Text style={{ marginLeft: wp((11.5 / 375) * 100), fontWeight: "500", color: "rgba(51, 51, 51, 1)" }}>Lagos, Nigeria</Text>
+                        <Text style={{ marginLeft: wp((11.5 / 375) * 100), fontWeight: "500", color: "rgba(51, 51, 51, 1)" }}>{
+                            state ? state : "Lagos,Nigeria"
+                        }</Text>
                     </View>
                 );
         }
@@ -59,7 +62,7 @@ const styles = StyleSheet.create({
     container: {
         paddingLeft: wp((27.5 / 370) * 100),
         paddingRight: wp((27.5 / 370) * 100),
-        marginTop: hp((40.32 / 812) * 100),
+        marginTop: hp((45.32 / 812) * 100),
         display: "flex",
         flexDirection: "row",
         justifyContent: "space-between",

@@ -57,7 +57,7 @@ const paymentsummary = () => {
                         <Text style={styles.summaryBody}>$13.99</Text>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("payment/paymentsummary")}>
+                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("ticket/ticket")}>
                     <Text style={{ color: "white" }}>Continue</Text>
                 </TouchableOpacity>
             </View>

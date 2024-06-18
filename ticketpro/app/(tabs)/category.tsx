@@ -29,7 +29,7 @@ const Category = () => {
           {
             states.map((name) => (
 
-              <TouchableOpacity style={styles.statePill} onPress={() => router.push("/state/state")}><Text>
+              <TouchableOpacity style={styles.statePill}  onPress={() => router.push({ pathname: "/state/state", params: { state: name } })}><Text>
                 {name}
               </Text></TouchableOpacity>
             ))

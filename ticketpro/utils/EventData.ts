@@ -1,19 +1,19 @@
 export const Events = [
   {
     Id: 1,
-    Name: "San Francisco United vs Los Angeles FC",
+    Name: "San United vs Los Angeles",
     DateTime: "2024-07-15T09:00:00",
     Location: "San Francisco, CA"
   },
   {
     Id: 2,
-    Name: "New York City FC vs Chicago Fire",
+    Name: "New York vs Chicago Fire",
     DateTime: "2024-08-20T13:00:00",
     Location: "New York, NY"
   },
   {
     Id: 3,
-    Name: "LA Galaxy vs Seattle Sounders",
+    Name: "LA Galaxy vs Seattle",
     DateTime: "2024-09-05T18:00:00",
     Location: "Los Angeles, CA"
   },
@@ -25,25 +25,25 @@ export const Events = [
   },
   {
     Id: 5,
-    Name: "Austin FC vs Houston Dynamo",
+    Name: "Austin FC vs HousDynamo",
     DateTime: "2024-11-12T14:00:00",
     Location: "Austin, TX"
   },
   {
     Id: 6,
-    Name: "New England Revolution vs Philadelphia Union",
+    Name: "New England vs Philly",
     DateTime: "2024-07-22T09:30:00",
     Location: "Boston, MA"
   },
   {
     Id: 7,
-    Name: "Seattle Sounders vs Portland Timbers",
+    Name: "Seattle vs Portland Timbers",
     DateTime: "2024-08-15T11:00:00",
     Location: "Seattle, WA"
   },
   {
     Id: 8,
-    Name: "Colorado Rapids vs Sporting Kansas City",
+    Name: "Colorado vs Sporting Kansas City",
     DateTime: "2024-09-25T15:00:00",
     Location: "Denver, CO"
   },
@@ -55,7 +55,7 @@ export const Events = [
   },
   {
     Id: 10,
-    Name: "Las Vegas Lights FC vs Phoenix Rising",
+    Name: "Las Vegas Lights FC",
     DateTime: "2024-11-05T12:00:00",
     Location: "Las Vegas, NV"
   },
@@ -67,25 +67,25 @@ export const Events = [
   },
   {
     Id: 12,
-    Name: "San Diego Loyal SC vs Sacramento Republic FC",
+    Name: "San Diego vs Sacramento FC",
     DateTime: "2024-08-18T14:00:00",
     Location: "San Diego, CA"
   },
   {
     Id: 13,
-    Name: "Portland Timbers vs LA Galaxy",
+    Name: "Portland vs LA Galaxy",
     DateTime: "2024-09-10T09:00:00",
     Location: "Portland, OR"
   },
   {
     Id: 14,
-    Name: "Philadelphia Union vs Columbus Crew",
+    Name: "Philadelphia vs Columbus",
     DateTime: "2024-10-14T13:30:00",
     Location: "Philadelphia, PA"
   },
   {
     Id: 15,
-    Name: "Houston Dynamo vs FC Dallas",
+    Name: "Houston vs FC Dallas",
     DateTime: "2024-11-18T11:00:00",
     Location: "Houston, TX"
   }

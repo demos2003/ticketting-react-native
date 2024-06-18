@@ -27,7 +27,7 @@ const Login = () => {
             <PasswordInput />
           </View>
           
-          <TouchableOpacity style={LoginStyle.submitLink} onPress={() => router.push("/(tabs)/category")}>
+          <TouchableOpacity style={LoginStyle.submitLink} onPress={() => router.push("/(tabs)/homepage12")}>
             <Text style={{ color: "white" }}>Continue</Text>
           </TouchableOpacity>
 

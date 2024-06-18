@@ -21,7 +21,7 @@ const AdPlacementPopUp: React.FC<AdProps> = ({ setAdModal }) => {
                 Would you like to book a placement for your ad(s) at this event?
             </Text>
             <View >
-                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("payment/paymentsummary")}>
+                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("adplacement/adplacement")}>
                     <Text style={{ color: "white" }}>Yes I’d like to</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.submitLink2} onPress={() => setAdModal(false)}>
