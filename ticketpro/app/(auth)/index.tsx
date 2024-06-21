@@ -16,7 +16,7 @@ export default function index() {
           <Text style={styles.welcomeText}>Welcome to our Ticketing and Events App!</Text>
           <Text style={styles.otherText}>Your one-stop solution for seamless event management and ticket
             purchases</Text>
-          <TouchableOpacity onPress={() => router.push("signup/SignUp")} style={styles.link}>
+          <TouchableOpacity onPress={() => router.push("onboarding/Onboarding")} style={styles.link}>
             <Text style={styles.linkText} >Get Started</Text>
           </TouchableOpacity>
         </View>
