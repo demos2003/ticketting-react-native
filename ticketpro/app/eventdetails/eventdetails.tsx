@@ -4,22 +4,18 @@ import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
-import BackNavIcon from '@/assets/icons/BackNavIcon';
 import WhiteBackIcon from '@/assets/icons/WhiteBackIncon';
 import LikeActive from '@/assets/icons/LikeActive';
 import TimeIcon from '@/assets/icons/TimeIcon';
-import CalendarIcon from '@/assets/icons/CalendarIcon';
 import LocationPinIcon from '@/assets/icons/LocationPinIcon';
 import DateIcon from '@/assets/icons/DateIcon';
 import MapView, { Circle, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
-import { router } from 'expo-router';
 import PopupContainer from '@/components/pop-up/Popup';
 import TicketPurchasePopUp from '@/components/ticket-purchase/TicketPurchasePopUp';
 import AdPlacementPopUp from '@/components/ad-placement/AdPlacementPopUp';
-import { FlatList } from 'react-native-gesture-handler';
 
 
-const EventDetails = () => {
+const eventDetails = () => {
     const [eventlocation, setEventlocation] = useState({
         // latitude: 6.627789261912285,
         latitude: 7.1383698,
@@ -112,7 +108,7 @@ const EventDetails = () => {
     )
 }
 
-export default EventDetails
+export default eventDetails
 
 const styles = StyleSheet.create({
     container: {

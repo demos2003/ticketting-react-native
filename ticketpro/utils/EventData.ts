@@ -1,4 +1,11 @@
-export const Events = [
+interface Event {
+  Id: number;
+  Name: string;
+  DateTime: string;
+  Location: string;
+}
+
+export const Events: Event[] = [
   {
     Id: 1,
     Name: "San United vs Los Angeles",

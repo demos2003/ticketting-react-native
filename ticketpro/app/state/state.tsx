@@ -198,10 +198,10 @@ const State = () => {
   };
 
 
-  const {state} = useLocalSearchParams();
+  const {stadium} = useLocalSearchParams();
   return (
     <View style={styles.container}>
-      <Sharedheader state={state}/>
+      <Sharedheader stadium={stadium}/>
       <View style={styles.innnerContainer}>
       <View style={styles.searchBar}>
           <SearchIcon />
