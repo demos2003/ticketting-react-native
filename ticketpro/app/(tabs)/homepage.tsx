@@ -30,14 +30,17 @@ const HomePage = () => {
         <View style={styles.hostSection}>
           <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 16, alignItems: "center" }}>
             <Text style={{ color: "rgba(51, 51, 51, 1)", fontSize: 19, fontWeight: "600" }}>Favourites Hosts</Text>
-            <Text style={{ color: "rgba(233, 30, 99, 1)", fontSize: 13, fontWeight: "500" }}>See All</Text>
+            <TouchableOpacity onPress={() => router.push("(tabs)/favourites")}>
+              <Text style={{ color: "rgba(233, 30, 99, 1)", fontSize: 13, fontWeight: "500" }}>See All</Text>
+            </TouchableOpacity>
+
           </View>
           <ScrollView horizontal showsHorizontalScrollIndicator={false}>
             {
               Organizers.map((organizer) => (
                 <View key={organizer.Id} style={{ marginRight: 15 }}>
                   <Image source={require("../../assets/images/Organizer1.png")} />
-                  <Text style={{fontWeight:"600", marginTop:5}}>{organizer.Name}</Text>
+                  <Text style={{ fontWeight: "600", marginTop: 5 }}>{organizer.Name}</Text>
                 </View>
               ))
             }
@@ -53,19 +56,19 @@ const HomePage = () => {
               const { month, date, time } = formatEventDateTime(event.DateTime);
               return (
                 <TouchableOpacity key={event.Id} style={{ marginRight: 15 }} onPress={() => router.push("/eventdetails/eventdetails")}  >
-                  <View style={{borderRadius:8, overflow:"hidden"}}>
+                  <View style={{ borderRadius: 8, overflow: "hidden" }}>
                     <ImageBackground source={require("../../assets/images/EventImage.png")} style={styles.eventImage}>
-                      <ImageBackground  source={require("../../assets/images/glassbackground.png")}  style={styles.dateBadge}>
-                        <Text style={{textAlign:"center", fontSize:10, color:"white", fontWeight:"900"}}>{month}</Text>
-                        <Text style={{textAlign:"center", color:"white"}}>{date}</Text>
+                      <ImageBackground source={require("../../assets/images/glassbackground.png")} style={styles.dateBadge}>
+                        <Text style={{ textAlign: "center", fontSize: 10, color: "white", fontWeight: "900" }}>{month}</Text>
+                        <Text style={{ textAlign: "center", color: "white" }}>{date}</Text>
                       </ImageBackground>
                     </ImageBackground>
                   </View>
-                  <View style={{marginTop:8}}>
-                    <Text style={{fontSize:17, fontWeight:"700"}}>{event.Name}</Text>
+                  <View style={{ marginTop: 8 }}>
+                    <Text style={{ fontSize: 17, fontWeight: "700" }}>{event.Name}</Text>
                     <View style={styles.eventDetails}>
                       <CalendarIcon />
-                      <Text style={{fontSize:10, color:"rgba(202, 202, 202, 1)", fontWeight:"600", marginTop:2}}>{`${month} ${date} - ${time}`}</Text>
+                      <Text style={{ fontSize: 10, color: "rgba(202, 202, 202, 1)", fontWeight: "600", marginTop: 2 }}>{`${month} ${date} - ${time}`}</Text>
                     </View>
                   </View>
                 </TouchableOpacity>
@@ -83,19 +86,19 @@ const HomePage = () => {
               const { month, date, time } = formatEventDateTime(event.DateTime);
               return (
                 <View key={event.Id} style={{ marginRight: 15 }} >
-                  <View style={{borderRadius:8, overflow:"hidden"}}>
+                  <View style={{ borderRadius: 8, overflow: "hidden" }}>
                     <ImageBackground source={require("../../assets/images/EventImage.png")} style={styles.eventImage}>
-                      <ImageBackground  source={require("../../assets/images/glassbackground.png")}  style={styles.dateBadge}>
-                        <Text style={{textAlign:"center", fontSize:10, color:"white", fontWeight:"900"}}>{month}</Text>
-                        <Text style={{textAlign:"center", color:"white"}}>{date}</Text>
+                      <ImageBackground source={require("../../assets/images/glassbackground.png")} style={styles.dateBadge}>
+                        <Text style={{ textAlign: "center", fontSize: 10, color: "white", fontWeight: "900" }}>{month}</Text>
+                        <Text style={{ textAlign: "center", color: "white" }}>{date}</Text>
                       </ImageBackground>
                     </ImageBackground>
                   </View>
-                  <View style={{marginTop:8}}>
-                    <Text style={{fontSize:17, fontWeight:"700"}}>{event.Name}</Text>
+                  <View style={{ marginTop: 8 }}>
+                    <Text style={{ fontSize: 17, fontWeight: "700" }}>{event.Name}</Text>
                     <View style={styles.eventDetails}>
                       <CalendarIcon />
-                      <Text style={{fontSize:10, color:"rgba(202, 202, 202, 1)", fontWeight:"600", marginTop:2}}>{`${month} ${date} - ${time}`}</Text>
+                      <Text style={{ fontSize: 10, color: "rgba(202, 202, 202, 1)", fontWeight: "600", marginTop: 2 }}>{`${month} ${date} - ${time}`}</Text>
                     </View>
                   </View>
                 </View>
@@ -130,7 +133,7 @@ const styles = StyleSheet.create({
   hostSection: {
     marginTop: hp((26 / 812) * 100)
   },
-  aroundYou:{
+  aroundYou: {
     marginTop: hp((26 / 812) * 100),
     marginBottom: hp((126 / 812) * 100)
   },
@@ -138,19 +141,19 @@ const styles = StyleSheet.create({
     width: wp((214 / 370) * 100),
     height: hp((120 / 812) * 100),
   },
-  eventDetails:{
-    display:"flex",
-    flexDirection:"row",
-    alignItems:"center"
+  eventDetails: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "center"
   },
-  dateBadge:{
-    width:40,
-    height:40,
-    marginLeft:17,
-    marginTop:13,
-    borderRadius:5,
-    display:"flex",
-  
+  dateBadge: {
+    width: 40,
+    height: 40,
+    marginLeft: 17,
+    marginTop: 13,
+    borderRadius: 5,
+    display: "flex",
+
   }
 
 })

@@ -9,6 +9,8 @@ import LikeActive from '@/assets/icons/LikeActive';
 import { Events } from '@/utils/EventData'; // Adjust the path as per your project structure
 import LikedInactive from '@/assets/icons/LikedInactive';
 import { router } from 'expo-router';
+import { PanGestureHandler } from 'react-native-gesture-handler';
+import Animated from 'react-native-reanimated';
 
 const Favourites: React.FC = () => {
   const formatDate = (dateTime: string) => {
@@ -50,28 +52,32 @@ const Favourites: React.FC = () => {
         </View>
         <ScrollView style={styles.favouriteList} showsVerticalScrollIndicator={false}>
           {filteredEvents.map((event) => (
-            <TouchableOpacity
-              key={event.Id}
-              onPress={() => router.push("/favourites/upcoming")}
-            >
-              <ImageBackground
-                source={require("../../assets/images/favouritesbg.png")}
-                style={styles.imageBg}
-              >
-                <View style={styles.likeContainer}>
-                  <TouchableOpacity
-                    style={{ width: 40, height: 40, display: "flex", alignItems: "flex-end" }}
-                    onPress={() => handleLiked(event.Id)}
+            // <PanGestureHandler>
+            //   <Animated.View>
+                <TouchableOpacity
+                  key={event.Id}
+                  onPress={() => router.push("/favourites/upcoming")}
+                >
+                  <ImageBackground
+                    source={require("../../assets/images/favouritesbg.png")}
+                    style={styles.imageBg}
                   >
-                    {likedEvents[event.Id] ? <LikeActive /> : <LikedInactive />}
-                  </TouchableOpacity>
-                </View>
-                <View style={styles.infoContainer}>
-                  <Text style={styles.eventName}>{event.Name}</Text>
-                  <Text style={styles.eventDate}>{formatDate(event.DateTime)}</Text>
-                </View>
-              </ImageBackground>
-            </TouchableOpacity>
+                    <View style={styles.likeContainer}>
+                      <TouchableOpacity
+                        style={{ width: 40, height: 40, display: "flex", alignItems: "flex-end" }}
+                        onPress={() => handleLiked(event.Id)}
+                      >
+                        {likedEvents[event.Id] ? <LikeActive /> : <LikedInactive />}
+                      </TouchableOpacity>
+                    </View>
+                    <View style={styles.infoContainer}>
+                      <Text style={styles.eventName}>{event.Name}</Text>
+                      <Text style={styles.eventDate}>{formatDate(event.DateTime)}</Text>
+                    </View>
+                  </ImageBackground>
+                </TouchableOpacity>
+            //   </Animated.View>
+            // </PanGestureHandler>
           ))}
         </ScrollView>
       </View>
