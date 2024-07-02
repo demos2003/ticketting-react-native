@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, TextInput, TouchableOpacity } from 'react-native'
-import React from 'react'
+import React, {useState} from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ContactInformationStyle } from './ContactInformationStyle'
 import NameInput from '@/components/form-components/NameInput'
@@ -16,6 +16,10 @@ const ContactInformation = () => {
   const placeholder2 = "Nasiru"
   const label3 = "Phone Number*"
   const placeholder3 = "234 8051066930"
+  const [firstName, setFirstName] = useState('');
+  const [lastName, setLastName] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [dob, setDob] = useState('');
   return (
     <SafeAreaView>
       <View style={ContactInformationStyle.container}>
@@ -28,19 +32,20 @@ const ContactInformation = () => {
             <Text style={{ color: "rgba(51, 51, 51, 1)", fontSize: 17, fontWeight: "700" }}>Contact Information</Text>
             <Text style={{ marginTop: 7.17, color: "rgba(51, 51, 51, 1)", fontSize: 14.82 }}>Welcome to <Text style={{ color: "rgba(63, 81, 181, 1)", fontWeight: "700" }}>Ashjory.</Text>  We’ll need your contact information for the records.</Text>
             <View style={{ marginTop: 24 }}>
-              <View style={{ marginBottom: 24 }}>
-                <NameInput label={label1} placeholder={placeholder1} />
+            <View style={{ marginBottom: 24 }}>
+                <NameInput label="First Name*" placeholder="Enter your first name" value={firstName} onChangeText={setFirstName} />
               </View>
               <View style={{ marginBottom: 24 }}>
-                <NameInput label={label2} placeholder={placeholder2} />
+                <NameInput label="Last Name*" placeholder="Enter your last name" value={lastName} onChangeText={setLastName} />
               </View>
               <View style={{ marginBottom: 24 }}>
-                <NameInput label={label3} placeholder={placeholder3} />
+                <NameInput label="Phone Number*" placeholder="Enter your phone number" value={phoneNumber} onChangeText={setPhoneNumber} />
               </View>
               <View style={styles.emailInputContainer}>
                 <View style={styles.containerLeft}>
                   <Text style={{ color: "rgba(0, 0, 0, 1)", fontSize: 7.09, fontWeight: "400" }}>Date of Birth</Text>
-                  <TextInput placeholder="dd/mm/yyyy" placeholderTextColor="rgba(51, 51, 51, 1)" />
+                  <TextInput placeholder="dd/mm/yyyy" placeholderTextColor="rgba(51, 51, 51, 1)"  value={dob}
+                  onChangeText={setDob} />
                 </View>
               </View>
               <TouchableOpacity style={styles.submitLink} onPress={() => router.push("/login/Login")}>

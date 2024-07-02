@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -7,16 +7,31 @@ import {
 import GreenCheck from '@/assets/icons/GreenCheck';
 
 
+interface EmailProps {
+    value: string;
+    onChangeText: (text: string) => void;
+}
 
-const EmailInput = () => {
+
+const EmailInput: React.FC<EmailProps> = ({ value, onChangeText }) => {
+    const [isValid, setIsValid] = useState(false);
+
+    useEffect(() => {
+        setIsValid(validateEmail(value));
+    }, [value]);
+
+    const validateEmail = (email: string) => {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
+    };
     return (
         <View style={styles.emailInputContainer}>
             <View style={styles.containerLeft}>
                 <Text style={{ color: "rgba(0, 0, 0, 1)", fontSize: 7.09, fontWeight: "400" }}>Email</Text>
-                <TextInput placeholder='ladenas202@gmail.com' placeholderTextColor="rgba(51, 51, 51, 1)"/>
+                <TextInput value={value} onChangeText={onChangeText} placeholder='ladenas202@gmail.com' placeholderTextColor="rgba(51, 51, 51, 1)" />
             </View>
             <View style={styles.containerRight}>
-                <GreenCheck />
+                {value.length > 0 ? (<GreenCheck isValid={isValid} />) : null}
             </View>
         </View>
     )

@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native';
+import { StyleSheet, Text, View, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { EmailVerificationStyle } from './EmailVerificationStyle';
@@ -7,7 +7,23 @@ import { router } from 'expo-router';
 
 const EmailVerification = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
-  const otpInputs = useRef<TextInput[]>(Array(4).fill(null)); // Ensure it's 4, not 6
+  const [disableRetry, setDisableRetry] = useState(true); // State to disable retry button
+  const [countdown, setCountdown] = useState(30); // Countdown timer
+
+  const otpInputs = useRef<TextInput[]>(Array(4).fill(null));
+
+  useEffect(() => {
+    // Countdown timer logic
+    if (countdown > 0) {
+      const timer = setTimeout(() => {
+        setCountdown(countdown - 1);
+      }, 1000);
+
+      return () => clearTimeout(timer);
+    } else {
+      setDisableRetry(false); // Enable retry button when countdown reaches zero
+    }
+  }, [countdown]);
 
   useEffect(() => {
     // Check if all OTP inputs are filled
@@ -15,7 +31,6 @@ const EmailVerification = () => {
       router.push('/contactinformation/ContactInformation'); // Replace with your actual route
     }
   }, [otp]);
-
 
   const handleOtpChange = (index: number, value: string) => {
     const updatedOtp = [...otp];
@@ -35,6 +50,13 @@ const EmailVerification = () => {
     }
   };
 
+  const handleRetry = () => {
+    // Implement retry functionality here, e.g., resend OTP
+    setDisableRetry(true); // Disable retry button again
+    setCountdown(30); // Reset countdown
+    // Additional logic for retry action
+  };
+
   return (
     <SafeAreaView>
       <View style={EmailVerificationStyle.container}>
@@ -49,7 +71,19 @@ const EmailVerification = () => {
             </Text>
           </View>
           <View style={{ marginTop: 30.86 }}>
-            <Text style={{ color: "rgba(255, 152, 0, 1)" }}>Resend code in 30s</Text>
+            {
+              countdown === 0 ? (
+                <TouchableOpacity
+                onPress={handleRetry}
+                disabled={disableRetry}
+              >
+                <Text style={{color: "rgba(51, 51, 51, 1)", fontWeight: "400", fontSize: 14.82 }}>Retry</Text>
+              </TouchableOpacity>
+              ) : (
+                <Text style={{ color: "rgba(255, 152, 0, 1)" }}>Resend code in {countdown}s</Text>
+              )
+            }
+            
             <View style={EmailVerificationStyle.otpContainer}>
               {otp.map((digit, index) => (
                 <TextInput
@@ -69,6 +103,7 @@ const EmailVerification = () => {
               ))}
             </View>
           </View>
+       
           <View style={EmailVerificationStyle.privacyPrompt}>
             <Text style={{ color: "rgba(86, 86, 86, 1)" }}>By creating an account, you agree to Ashjory’s <Text style={{ color: "rgba(63, 81, 181, 1)" }}>Terms & Conditions</Text> and <Text style={{ color: "rgba(63, 81, 181, 1)" }}>Privacy Policy</Text></Text>
           </View>

@@ -5,25 +5,25 @@ import {
     heightPercentageToDP as hp,
 } from "react-native-responsive-screen";
 
-import GreenCheck from '@/assets/icons/GreenCheck';
 
-interface NameProps{
-    label : string;
-    placeholder:string;
+interface NameInputProps {
+    label: string;
+    placeholder: string;
+    value: string;
+    onChangeText: (text: string) => void;
 }
 
-const NameInput: React.FC<NameProps> = ({label, placeholder}) => {
-  return (
-    <View style={styles.emailInputContainer}>
+const NameInput: React.FC<NameInputProps> = ({ label, placeholder, value, onChangeText }) => {
+    return (
+        <View style={styles.emailInputContainer}>
             <View style={styles.containerLeft}>
                 <Text style={{ color: "rgba(0, 0, 0, 1)", fontSize: 7.09, fontWeight: "400" }}>{label}</Text>
-                <TextInput placeholder={placeholder} placeholderTextColor="rgba(51, 51, 51, 1)"/>
+                <TextInput placeholder={placeholder} placeholderTextColor="rgba(51, 51, 51, 1)" value={value}
+                    onChangeText={onChangeText} />
             </View>
-            <View style={styles.containerRight}>
-                <GreenCheck />
-            </View>
+
         </View>
-  )
+    )
 }
 
 export default NameInput

@@ -1,5 +1,5 @@
-import { Pressable, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
+import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { SignUpStyle } from './SignUpStyle'
 import BackNavIcon from '@/assets/icons/BackNavIcon'
@@ -9,6 +9,46 @@ import { Link, router } from 'expo-router'
 
 
 const SignUp = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [error, setError] = useState('');
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  const validatePassword = (password: string) => {
+    // Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+    return passwordRegex.test(password);
+  };
+
+  const handleSignUp = () => {
+    if (!validateEmail(email)) {
+      setError('Please enter a valid email address.');
+      setTimeout(() => setError(''), 3000); // Clear error after 3 seconds
+      return;
+    }
+    if (!validatePassword(password)) {
+      setError('Password must contain at least one uppercase letter, one lowercase letter, one digit, and be at least 8 characters long.');
+      setTimeout(() => setError(''), 3000); // Clear error after 3 seconds
+      return;
+    }
+    if (password !== confirmPassword) {
+      setError('Passwords do not match.');
+      setTimeout(() => setError(''), 3000); // Clear error after 3 seconds
+      return;
+    }
+    setError('');
+    // Proceed with sign up process, e.g., navigate to email verification
+    router.push('/emailverification/EmailVerification');
+  };
+  
+
+
+
   return (
     <View>
       <SafeAreaView>
@@ -24,15 +64,17 @@ const SignUp = () => {
             </View>
             <View style={SignUpStyle.formContainer}>
               <View>
-                <EmailInput />
+                <EmailInput value={email} onChangeText={setEmail} />
               </View>
               <View>
-                <PasswordInput />
+                <PasswordInput value={password} onChangeText={setPassword} />
               </View>
               <View>
-                <PasswordInput />
+                <PasswordInput value={confirmPassword} onChangeText={setConfirmPassword} />
               </View>
-              <TouchableOpacity style={SignUpStyle.submitLink} onPress={() => router.push("/emailverification/EmailVerification")}>
+              <Text style={{color:"grey", fontSize:11, marginTop:5}}>Note: Password should contain at least 1 Capital, 1 small letter, 1 number and greater then 8 characters</Text>
+              <Text style={{color:"red", marginTop:5}}>{error}</Text>
+              <TouchableOpacity style={SignUpStyle.submitLink} onPress={() => handleSignUp()}>
                 <Text style={{ color: "white" }}>Continue</Text>
               </TouchableOpacity>
             </View>
