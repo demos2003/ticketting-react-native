@@ -59,7 +59,7 @@ const Favourites: React.FC = () => {
                   onPress={() => router.push("/favourites/upcoming")}
                 >
                   <ImageBackground
-                    source={require("../../assets/images/favouritesbg.png")}
+                    source={require("../../../assets/images/favouritesbg.png")}
                     style={styles.imageBg}
                   >
                     <View style={styles.likeContainer}>

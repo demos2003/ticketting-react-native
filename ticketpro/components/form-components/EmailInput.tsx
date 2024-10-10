@@ -6,12 +6,10 @@ import {
 } from "react-native-responsive-screen";
 import GreenCheck from '@/assets/icons/GreenCheck';
 
-
 interface EmailProps {
     value: string;
     onChangeText: (text: string) => void;
 }
-
 
 const EmailInput: React.FC<EmailProps> = ({ value, onChangeText }) => {
     const [isValid, setIsValid] = useState(false);
@@ -24,20 +22,27 @@ const EmailInput: React.FC<EmailProps> = ({ value, onChangeText }) => {
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return emailRegex.test(email);
     };
+
     return (
         <View style={styles.emailInputContainer}>
             <View style={styles.containerLeft}>
                 <Text style={{ color: "rgba(0, 0, 0, 1)", fontSize: 7.09, fontWeight: "400" }}>Email</Text>
-                <TextInput value={value} onChangeText={onChangeText} placeholder='ladenas202@gmail.com' placeholderTextColor="rgba(51, 51, 51, 1)" />
+                <TextInput 
+                    value={value} 
+                    onChangeText={onChangeText} 
+                    placeholder='ladenas202@gmail.com' 
+                    placeholderTextColor="rgba(51, 51, 51, 1)" 
+                    autoCapitalize="none" // Ensures keyboard is in lowercase by default
+                />
             </View>
             <View style={styles.containerRight}>
                 {value.length > 0 ? (<GreenCheck isValid={isValid} />) : null}
             </View>
         </View>
-    )
+    );
 }
 
-export default EmailInput
+export default EmailInput;
 
 const styles = StyleSheet.create({
     emailInputContainer: {
@@ -58,4 +63,4 @@ const styles = StyleSheet.create({
         display: "flex",
         alignItems: 'flex-end'
     }
-})
+});

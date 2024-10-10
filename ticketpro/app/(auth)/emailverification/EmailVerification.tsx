@@ -3,14 +3,23 @@ import React, { useState, useRef, useEffect } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { EmailVerificationStyle } from './EmailVerificationStyle';
 import BackNavIcon from '@/assets/icons/BackNavIcon';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
+import { useValidateEmailMutation } from '@/api/features/auth/authApiSlice';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { UseDispatch, useDispatch } from 'react-redux';
+import { setAuthenticated, setEmailVerified } from '@/api/features/auth/authSlice';
+
 
 const EmailVerification = () => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [disableRetry, setDisableRetry] = useState(true); // State to disable retry button
   const [countdown, setCountdown] = useState(30); // Countdown timer
-
+  const { email } = useLocalSearchParams();
   const otpInputs = useRef<TextInput[]>(Array(4).fill(null));
+  const [validateOtp] = useValidateEmailMutation();
+  const [errorMsg, setErrorMsg] = useState('')
+  const dispatch = useDispatch();
+
 
   useEffect(() => {
     // Countdown timer logic
@@ -25,12 +34,28 @@ const EmailVerification = () => {
     }
   }, [countdown]);
 
+
   useEffect(() => {
-    // Check if all OTP inputs are filled
-    if (otp.every(digit => digit !== "")) {
-      router.push('/contactinformation/ContactInformation'); // Replace with your actual route
-    }
-  }, [otp]);
+    const validateOtpAsync = async () => {
+      if (otp.every(digit => digit !== "")) {
+        try {
+          const response = await validateOtp({ email, otp: otp.join("") }).unwrap();
+          if (response === 'otp is valid') {
+            await AsyncStorage.setItem('emailVerified', 'true');
+             dispatch(setEmailVerified(true))
+             dispatch(setAuthenticated(true))
+            router.replace("/(app)/(tabs)/homepage");
+          } else {
+            setErrorMsg("OTP verification fialed")
+          }
+        } catch (err) {
+          setErrorMsg("Something went wrong")
+        }
+      }
+    };
+
+    validateOtpAsync();
+  }, [otp, email, validateOtp]);
 
   const handleOtpChange = (index: number, value: string) => {
     const updatedOtp = [...otp];
@@ -51,11 +76,12 @@ const EmailVerification = () => {
   };
 
   const handleRetry = () => {
-    // Implement retry functionality here, e.g., resend OTP
     setDisableRetry(true); // Disable retry button again
     setCountdown(30); // Reset countdown
-    // Additional logic for retry action
   };
+
+
+  console.log(otp)
 
   return (
     <SafeAreaView>
@@ -74,16 +100,16 @@ const EmailVerification = () => {
             {
               countdown === 0 ? (
                 <TouchableOpacity
-                onPress={handleRetry}
-                disabled={disableRetry}
-              >
-                <Text style={{color: "rgba(51, 51, 51, 1)", fontWeight: "400", fontSize: 14.82 }}>Retry</Text>
-              </TouchableOpacity>
+                  onPress={handleRetry}
+                  disabled={disableRetry}
+                >
+                  <Text style={{ color: "rgba(51, 51, 51, 1)", fontWeight: "400", fontSize: 14.82 }}>Retry</Text>
+                </TouchableOpacity>
               ) : (
                 <Text style={{ color: "rgba(255, 152, 0, 1)" }}>Resend code in {countdown}s</Text>
               )
             }
-            
+
             <View style={EmailVerificationStyle.otpContainer}>
               {otp.map((digit, index) => (
                 <TextInput
@@ -102,8 +128,9 @@ const EmailVerification = () => {
                 />
               ))}
             </View>
+            <Text>{errorMsg}</Text>
           </View>
-       
+
           <View style={EmailVerificationStyle.privacyPrompt}>
             <Text style={{ color: "rgba(86, 86, 86, 1)" }}>By creating an account, you agree to Ashjory’s <Text style={{ color: "rgba(63, 81, 181, 1)" }}>Terms & Conditions</Text> and <Text style={{ color: "rgba(63, 81, 181, 1)" }}>Privacy Policy</Text></Text>
           </View>

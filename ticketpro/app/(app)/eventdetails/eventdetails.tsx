@@ -1,5 +1,5 @@
-import { SafeAreaView, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity } from 'react-native'
-import React, { useState } from 'react'
+import { SafeAreaView, StyleSheet, Text, View, Image, ImageBackground, TouchableOpacity, ActivityIndicator } from 'react-native';
+import React, { useState } from 'react';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -13,33 +13,63 @@ import MapView, { Circle, Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 import PopupContainer from '@/components/pop-up/Popup';
 import TicketPurchasePopUp from '@/components/ticket-purchase/TicketPurchasePopUp';
 import AdPlacementPopUp from '@/components/ad-placement/AdPlacementPopUp';
+import { useLocalSearchParams } from 'expo-router';
+import { useGetEventByIdQuery } from '@/api/features/events/eventsSlice';
 
+const EventDetails = () => {
+    const { id } = useLocalSearchParams();
+    const { data: event, error, isLoading } = useGetEventByIdQuery(id);
 
-const eventDetails = () => {
     const [eventlocation, setEventlocation] = useState({
-        // latitude: 6.627789261912285,
         latitude: 7.1383698,
         longitude: 3.3254202,
-        // longitude: 3.366471136843776,
         latitudeDelta: 0.04,
         longitudeDelta: 0.05,
     });
 
     const RADIUS = 100;
-
     const [ticketModal, setTicketModal] = useState(false);
     const [adModal, setAdModal] = useState(false);
+
+    const formatDate = (dateString: string): string => {
+        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+        return new Date(dateString).toLocaleDateString(undefined, options);
+    };
+
+    const formatTime = (timeString: string): string => {
+        const [hours, minutes] = timeString.split(':').map(Number);
+        const date = new Date();
+        date.setHours(hours, minutes);
+        return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true });
+    };
+
+
+    if (isLoading) {
+        return (
+            <SafeAreaView style={{ height: "100%", display: "flex", alignItems: "center", justifyContent: "center" }}>
+                <ActivityIndicator size="large" color="rgba(63, 81, 181, 1)" />
+            </SafeAreaView>
+        );
+    }
+
+    if (error) {
+        return (
+            <SafeAreaView style={styles.container}>
+                <Text style={{ color: 'red', textAlign: 'center' }}>Error fetching event details. Please try again later.</Text>
+            </SafeAreaView>
+        );
+    }
+
     return (
         <SafeAreaView style={styles.container}>
-            <ImageBackground source={require("../../assets/images/eventdetailsbg.png")} style={styles.eventDetailsbg}>
+            <ImageBackground source={require("../../../assets/images/eventdetailsbg.png")} style={styles.eventDetailsbg}>
                 <View style={styles.navigationHeader}>
                     <View >
                         <WhiteBackIcon />
                     </View>
                     <TouchableOpacity onPress={() => setAdModal(true)}>
-                        <Image source={require("../../assets/images/AddIcon.png")} />
+                        <Image source={require("../../../assets/images/AddIcon.png")} />
                     </TouchableOpacity>
-
                 </View>
             </ImageBackground>
             <View style={styles.bottomSheet}>
@@ -50,22 +80,22 @@ const eventDetails = () => {
                     <LikeActive />
                 </View>
                 <View>
-                    <Text style={{ fontSize: 26.53, color: "rgba(51, 51, 51, 1)", fontWeight: "700", marginBottom: 8 }}>Moscow vs Cameroun</Text>
+                    <Text style={{ fontSize: 20.53, color: "rgba(51, 51, 51, 1)", fontWeight: "700", marginBottom: 8 }}>{event.name}</Text>
                     <View style={styles.row}>
                         <LocationPinIcon />
-                        <Text style={styles.rowText}>Cairo, Egypt</Text></View>
+                        <Text style={styles.rowText}>{event.location}</Text></View>
                     <View style={styles.row}>
                         <View style={styles.row2}>
                             <DateIcon />
-                            <Text style={styles.rowText}>Apr 24</Text></View>
+                            <Text style={styles.rowText}>{formatDate(event.startDate)}</Text></View>
                         <View style={styles.row}>
                             <TimeIcon />
-                            <Text style={styles.rowText}>11:00pm</Text>
+                            <Text style={styles.rowText}>{formatTime(event.startTime)} - {formatTime(event.endTime)}</Text>
                         </View>
                     </View>
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "400", fontSize: 14 }}>
-                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> This event is hosted by my niggas big drip and some other niggas. Come on down and experience amazing football.</Text>
+                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> {event.description}</Text>
                     </View>
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>
@@ -81,34 +111,29 @@ const eventDetails = () => {
                                 }}
                                 provider={PROVIDER_GOOGLE}
                             >
-
                                 <Marker coordinate={eventlocation} title="Attendance Location" pinColor='rgba(233, 30, 99, 1)' />
-
                                 <Circle center={eventlocation} radius={RADIUS} fillColor={'rgba(249, 121, 165, 0.68)'} strokeColor={'rgba(233, 30, 99, 1)'} />
                             </MapView>
                         </View>
                         <TouchableOpacity style={styles.submitLink}
-                            // onPress={() => router.push("payment/paymenttype")}
                             onPress={() => setTicketModal(true)}
                         >
-                            <Text style={{ color: "white" }}>Book Now - $10.00</Text>
+                            <Text style={{ color: "white" }}>Book Now</Text>
                         </TouchableOpacity>
-
                     </View>
                 </View>
             </View>
             <PopupContainer trigger={ticketModal}>
-                <TicketPurchasePopUp setTicketModal={setTicketModal} />
+                <TicketPurchasePopUp setTicketModal={setTicketModal} event={event} />
             </PopupContainer>
             <PopupContainer trigger={adModal}>
                 <AdPlacementPopUp setAdModal={setAdModal} />
             </PopupContainer>
-
         </SafeAreaView>
-    )
+    );
 }
 
-export default eventDetails
+export default EventDetails;
 
 const styles = StyleSheet.create({
     container: {
@@ -163,8 +188,6 @@ const styles = StyleSheet.create({
         marginTop: 15,
         borderRadius: 15,
         overflow: "hidden",
-
-
     },
     submitLink: {
         backgroundColor: "rgba(63, 81, 181, 1)",
@@ -175,4 +198,4 @@ const styles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center"
     },
-})
+});

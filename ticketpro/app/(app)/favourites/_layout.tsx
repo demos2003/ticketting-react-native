@@ -29,7 +29,7 @@ const FavouriteLayout = () => {
                     <BackNavIcon />
                     <LikeActive />
                 </View>
-                <ImageBackground source={require("../../assets/images/favouritesbg.png")} style={styles.imageBg}>
+                <ImageBackground source={require("../../../assets/images/favouritesbg.png")} style={styles.imageBg}>
                     <Text style={styles.eventName}>XYZ BAND</Text>
                     <Text style={styles.eventDate}>x event found</Text>
                 </ImageBackground>

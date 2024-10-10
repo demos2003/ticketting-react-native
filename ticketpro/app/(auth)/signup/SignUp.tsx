@@ -1,3 +1,4 @@
+
 import { StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
@@ -6,6 +7,7 @@ import BackNavIcon from '@/assets/icons/BackNavIcon'
 import EmailInput from '@/components/form-components/EmailInput'
 import PasswordInput from '@/components/form-components/PasswordInput'
 import { Link, router } from 'expo-router'
+
 
 
 const SignUp = () => {
@@ -43,7 +45,7 @@ const SignUp = () => {
     }
     setError('');
     // Proceed with sign up process, e.g., navigate to email verification
-    router.push('/emailverification/EmailVerification');
+    router.push({pathname:'/contactinformation/ContactInformation', params :{email:email, password:password}});
   };
   
 
@@ -55,7 +57,9 @@ const SignUp = () => {
         <View style={SignUpStyle.container}>
           <View style={SignUpStyle.navSection}>
             <BackNavIcon />
+            <TouchableOpacity onPress={() => router.push("/(auth)/login/Login")}>
             <Text style={{ fontSize: 12.49 }}>Already have an account ? <Text style={{ color: "rgba(63, 81, 181, 1)" }}>Login</Text> </Text>
+            </TouchableOpacity>
           </View>
           <View style={SignUpStyle.formSection}>
             <View>

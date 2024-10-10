@@ -34,7 +34,7 @@ export const EmailVerificationStyle = StyleSheet.create({
    },
 
    privacyPrompt:{
-      marginTop:460,
+      marginTop:420,
       fontSize:12
 
    },

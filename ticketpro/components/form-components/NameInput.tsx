@@ -1,5 +1,5 @@
-import { StyleSheet, Text, View, TextInput } from 'react-native'
-import React from 'react'
+import { StyleSheet, Text, View, TextInput } from 'react-native';
+import React from 'react';
 import {
     widthPercentageToDP as wp,
     heightPercentageToDP as hp,
@@ -17,16 +17,20 @@ const NameInput: React.FC<NameInputProps> = ({ label, placeholder, value, onChan
     return (
         <View style={styles.emailInputContainer}>
             <View style={styles.containerLeft}>
-                <Text style={{ color: "rgba(0, 0, 0, 1)", fontSize: 7.09, fontWeight: "400" }}>{label}</Text>
-                <TextInput placeholder={placeholder} placeholderTextColor="rgba(51, 51, 51, 1)" value={value}
-                    onChangeText={onChangeText} />
+                <Text style={styles.label}>{label}</Text>
+                <TextInput
+                    style={styles.input}
+                    placeholder={placeholder}
+                    placeholderTextColor="rgba(51, 51, 51, 1)"
+                    value={value}
+                    onChangeText={onChangeText}
+                />
             </View>
-
         </View>
-    )
-}
+    );
+};
 
-export default NameInput
+export default NameInput;
 
 const styles = StyleSheet.create({
     emailInputContainer: {
@@ -37,14 +41,20 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         display: "flex",
         flexDirection: "row",
-        alignItems: "center"
-    },
-    containerLeft: {
+        alignItems: "center",
+    
+      },
+      containerLeft: {
         width: "90%"
+      },
+    label: {
+        color: "rgba(0, 0, 0, 1)",
+        fontSize: 7.09,
+        fontWeight: "400",
     },
-    containerRight: {
-        width: "10%",
-        display: "flex",
-        alignItems: 'flex-end'
-    }
-})
+    input: {
+        flex: 1,
+        fontSize: 14,
+        color: "rgba(51, 51, 51, 1)",
+    },
+});

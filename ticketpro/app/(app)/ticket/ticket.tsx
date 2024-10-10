@@ -21,7 +21,7 @@ const Ticket = () => {
                 <View style={styles.ticketContainer}>
                     <View style={{borderTopLeftRadius:10, borderTopRightRadius:10, overflow:"hidden"}}>
                     <Image
-                        source={require("../../assets/images/matchimage.png")} // Replace with the actual image URL
+                        source={require("../../../assets/images/matchimage.png")} // Replace with the actual image URL
                         style={styles.image}
                     />
                     </View>

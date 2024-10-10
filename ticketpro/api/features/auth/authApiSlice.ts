@@ -1,25 +1,46 @@
 import { apiSlice } from "@/api/apiSlice";
 
 export const authApiSlice = apiSlice.injectEndpoints({
-    endpoints: (builder) => ({
-        login: builder.mutation({
-            query: (credentials) => ({
-                 url: "/auth/authenticate",
-                 method: "POST",
-                 body: {...credentials}
-            })
-        }),
-        signUp: builder.mutation({
-            query:(userData) => {
-                return {
-                    url: "/auth/register",
-                    method: "POST",
-                    body:userData
-                };
-            },
-        }),
+  endpoints: (builder) => ({
+    login: builder.mutation({
+      query: ({email, password}) => ({
+        url: "/auth/authenticate",
+        method: "POST",
+        body: { email, password },
+      }),
     }),
-    overrideExisting:true
-})
+    signUp: builder.mutation({
+      query: ({ email, password, phoneNumber, firstName, lastName, role }) => {
+        return {
+          url: "/auth/register",
+          method: "POST",
+          body: {
+            email,
+            password,
+            phoneNumber,
+            firstName,
+            lastName,
+            role,
+          },
+        };
+      },
+    }),
+    validateEmail: builder.mutation({
+      query: ({ email, otp }) => {
+        return {
+          url: "/auth/validate-otp",
+          method: "POST",
+          body: {
+            email,
+            otp,
+          },
+          responseHandler: 'text'
+        };
+      },
+    }),
+  }),
+  overrideExisting: true,
+});
 
-export const { useLoginMutation, useSignUpMutation } = authApiSlice;
+export const { useLoginMutation, useSignUpMutation, useValidateEmailMutation } =
+  authApiSlice;

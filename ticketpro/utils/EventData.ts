@@ -97,3 +97,25 @@ export const Events: Event[] = [
     Location: "Houston, TX"
   }
 ];
+
+
+
+// Define Event type in a central place, e.g., `types.ts`
+export interface EventProps {
+  id: string;
+  name: string;
+  description: string;
+  location: string;
+  startDate: string;
+  endDate: string;
+  vendorId: string;
+  varyingTicketType: boolean;
+  totalTicket: number;
+  startTime: string;
+  endTime: string;
+  numVipTickets: number;
+  numRegularTickets: number;
+  vip: number;
+  vipTicketPrice: number;
+  regTicketPrice: number;
+}

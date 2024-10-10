@@ -14,10 +14,10 @@ const stadiums = () => {
 
 
     const images = [
-        require("../../assets/images/BlueBackground.png"),
-        require("../../assets/images/RedBackground.png"),
-        require("../../assets/images/GreenBackground.png"),
-        require("../../assets/images/OrangeBackground.png"),
+        require("../../../assets/images/BlueBackground.png"),
+        require("../../../assets/images/RedBackground.png"),
+        require("../../../assets/images/GreenBackground.png"),
+        require("../../../assets/images/OrangeBackground.png"),
 
     ];
 

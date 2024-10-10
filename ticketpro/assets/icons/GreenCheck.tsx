@@ -2,7 +2,7 @@ import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 
 interface IconProps{
-    isValid:boolean;
+    isValid?:boolean;
 }
 
 const GreenCheck:React.FC<IconProps> = ({isValid}) => {

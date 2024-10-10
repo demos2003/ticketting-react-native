@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import {
   widthPercentageToDP as wp,
@@ -11,8 +11,39 @@ import FAQIcon from '@/assets/icons/FAQIcon';
 import TermsIcon from '@/assets/icons/TermsIcon';
 import DeleteIcon from '@/assets/icons/DeleteIcon';
 import SignOutIcon from '@/assets/icons/SignOutIcon';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { router } from 'expo-router';
+import { useDispatch } from 'react-redux';
+import { logout } from '@/api/features/auth/authSlice';
+
+
+
 
 const Profile = () => {
+  const dispatch = useDispatch();
+
+  const clearAccessToken = async () => {
+    try {
+      await AsyncStorage.removeItem('accessToken');
+      console.log('Access token cleared successfully');
+    } catch (error) {
+      console.error('Error clearing access token:', error);
+    }
+  };
+
+  const handleLogout = async () => {
+    try {
+      await clearAccessToken();
+      dispatch(logout());
+      router.replace('/(auth)/login/Login');
+    } catch (error) {
+      console.error('Error during logout:', error);
+    }
+  };
+
+
+
+
   return (
     <View style={styles.container}>
       <View style={styles.innnerContainer}>
@@ -48,10 +79,10 @@ const Profile = () => {
           <DeleteIcon/>
           <Text style={{marginLeft:10, color:"rgba(251, 24, 3, 1)"}}>Deactivate Account</Text>
         </View>
-        <View style={styles.profileItems}>
+        <TouchableOpacity style={styles.profileItems} onPress={() => handleLogout()}>
           <SignOutIcon/>
           <Text style={{marginLeft:10, color:"rgba(251, 24, 3, 1)"}}>Sign Out</Text>
-        </View>
+        </TouchableOpacity>
       </View>
     </View>
   )
