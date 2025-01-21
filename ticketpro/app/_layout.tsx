@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Text } from "react-native";
 import { Providers } from "@/api/provider";
 
+
 function RootLayoutNav() {
   const isAuthenticated = useSelector((state:any) => state.auth.isAuthenticated);
   const dispatch = useDispatch();
@@ -58,8 +59,10 @@ function RootLayoutNav() {
 
 export default function RootLayout() {
   return (
+     
     <Providers>
       <RootLayoutNav />
     </Providers>
+
   );
 }

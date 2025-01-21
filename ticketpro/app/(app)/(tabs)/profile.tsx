@@ -12,9 +12,10 @@ import TermsIcon from '@/assets/icons/TermsIcon';
 import DeleteIcon from '@/assets/icons/DeleteIcon';
 import SignOutIcon from '@/assets/icons/SignOutIcon';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { router } from 'expo-router';
+import { router, Link } from 'expo-router';
 import { useDispatch } from 'react-redux';
 import { logout } from '@/api/features/auth/authSlice';
+
 
 
 
@@ -67,10 +68,11 @@ const Profile = () => {
           <FAQIcon/>
           <Text style={{marginLeft:10}}>Contact us</Text>
         </View>
-        <View style={styles.profileItems}>
+        
+        <TouchableOpacity  onPress={() => router.push("/adplacement/adplacement")} style={styles.profileItems}>
           <TermsIcon/>
-          <Text style={{marginLeft:10}}>Terms and Conditions</Text>
-        </View>
+          <Text style={{marginLeft:10}}>Ad Placement</Text>
+        </TouchableOpacity>
         <View style={styles.profileItems}>
           <SecurityIcon/>
           <Text style={{marginLeft:10}}>Privacy Policy</Text>

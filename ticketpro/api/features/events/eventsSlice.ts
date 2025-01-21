@@ -8,6 +8,9 @@ export const eventsSlice = apiSlice.injectEndpoints({
         getEventById: builder.query({
             query: (id) => `/vendor/events/${id}`,
           }),
+        getEventsByVendorId: builder.query({
+            query:(vendorId) => `/vendor/events/getEvents/${vendorId}`
+        }),
     }),
     overrideExisting: true,
 })
@@ -15,5 +18,6 @@ export const eventsSlice = apiSlice.injectEndpoints({
 
 export const {
     useGetEventsQuery,
-    useGetEventByIdQuery
+    useGetEventByIdQuery,
+    useGetEventsByVendorIdQuery
 } = eventsSlice;

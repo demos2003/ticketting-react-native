@@ -6,6 +6,7 @@ export default function PaymentLayout() {
     <Stack  >
       {/* <Stack.Screen name="paymenttype" options={{headerShown:false}}/> */}
       <Stack.Screen name="paymentsummary" options={{headerShown:false}}/>
+      <Stack.Screen name="adpayment" options={{headerShown:false}}/>
     </Stack>
   );
 }

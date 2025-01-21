@@ -12,45 +12,29 @@ import { usePurchaseTicketMutation } from '@/api/features/tickets/ticketSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PayWithFlutterwave } from 'flutterwave-react-native';
 import { formatArrayDateTime } from '@/utils/DateTimeFormater';
-import { Alert } from 'react-native';
+import { TextInput } from 'react-native';
+import { useBookAdMutation } from '@/api/features/ad/adSlice';
 
-const PaymentSummary = () => {
+const AdPayment = () => {
     const params = useLocalSearchParams();
-    const eventName = params.eventName as string;
-    const eventLocation = params.eventLocation as string;
-    const eventStartTime = params.eventStartTime as any;
-    const eventEndTime = params.eventEndTime as any;
-    const ticketType = params.ticketType as string;
-    const quantity = parseInt(params.ticketQuantity as string, 10);
-    const ticketPrice = parseFloat(params.ticketPrice as string);
-    const eventDate = params.eventDate as any;
-    const eventId = params.eventId as string;
+    const adSpaceId = params.adSpaceId;
+    const quantity = params.adQuantity as any;
+    const startDateTime = params.startDateTime as string;
+    const endDateTime = params.endDateTime as string;
+    const location = params.location;
+    const adType = params.adType;
+    const adSize = params.adSize;
+    const adPrice = parseInt(params.adPrice as string);
+    const [businessName, setBusinessName] = useState<string>('');
+    const [adPurpose, setAdPurpose] = useState<string>('');
 
-    const totalPay = ticketPrice * quantity;
-
-    const eventArrayStartTime = [
-        new Date(eventStartTime).getFullYear() % 100,
-        new Date(eventStartTime).getMonth() + 1,
-        new Date(eventStartTime).getDate()
-    ];
-
-
-    const formattedStartDateTime = formatArrayDateTime(eventDate, eventArrayStartTime);
-    console.log(eventDate)
+    const totalPay = quantity * adPrice;
     
-    const formatTime = (timeArray: number[]): string => {
-        const [hours, minutes] = timeArray;
-        const date = new Date();
-        date.setHours(hours, minutes, 0); // Set hours and minutes
-        return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true });
-    };
-    
-    
-
-    const [purchaseTicket, { isLoading, error }] = usePurchaseTicketMutation();
     const [userId, setUserId] = useState<string | null>(null);
     const [fullName, setFullName] = useState<string | null>("");
-    const [email, setEmail] = useState<string | null>(null)
+    const [email, setEmail] = useState<string | null>(null);
+
+    const [bookAds, {isLoading, error}] = useBookAdMutation();
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -79,39 +63,52 @@ const PaymentSummary = () => {
         };
         fetchEmail();
     }, []);
+// Convert ISO string to Date object
+const startDate1 = new Date(startDateTime);
+const endDate1 = new Date(endDateTime);
 
- const handleTicketPurchase = async () => {
+// Format for display (e.g., MM/DD/YYYY HH:mm)
+const readableStartDateTime = startDate1.toLocaleString('en-US', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false, // Use 24-hour format
+});
+
+const readableEndDateTime = endDate1.toLocaleString('en-US', {
+  year: 'numeric',
+  month: '2-digit',
+  day: '2-digit',
+  hour: '2-digit',
+  minute: '2-digit',
+  hour12: false,
+});
+
+const startDate = startDate1.toISOString().slice(0, 16); // "YYYY-MM-DDTHH:mm"
+const endDate = endDate1.toISOString().slice(0, 16);
+
+const handleAdPurchase = async () => {
     try {
-        const response = await purchaseTicket({ userId, ticketType, quantity, eventId }).unwrap();
-        console.log('Raw Response:', response);
-
-        // Check if response contains the success message directly
-        if (response.message === "Tickets purchased successfully" || response.success === true) {
-            router.push("/(app)/(tabs)/(tickets)/upcoming");
-        } else {
-            Alert.alert(
-                "Purchase Failed", 
-                response.data || "Unable to complete ticket purchase",
-                [{ text: "OK" }]
-            );
-        }
-    } catch (error:any) {
-        console.error("Ticket Purchase Error:", error);
-        
-        Alert.alert(
-            "Error", 
-            error.message || "An unexpected error occurred",
-            [{ text: "OK" }]
-        );
+        const response = await bookAds({ userId, adSpaceId, quantity, businessName, adPurpose, startDate, endDate }).unwrap();
+        console.log(response);
+        // router.replace("/ticket/ticket");
+    } catch (error) {
+        console.log(error);
     }
 };
+
+
+
+
 
     const handlePaymentSuccess = (response: any) => {
         console.log('Payment response:', response);
 
         if (response.status === 'successful') {
             // After successful payment, handle ticket purchase
-            handleTicketPurchase();
+            handleAdPurchase();
         } else {
             console.log('Payment failed or was cancelled');
         }
@@ -119,34 +116,65 @@ const PaymentSummary = () => {
 
     return (
         <SafeAreaView style={styles.container}>
+
             <View style={styles.innerContainer}>
                 <View style={styles.topNav}>
                     <BackNavIcon />
-                    <Text style={styles.topNavText}>Order Summary</Text>
+                    <Text style={styles.topNavText}>Ad Payment Summary</Text>
                 </View>
+
+                <View style={{marginTop:50}}>
+                    <Text style={{marginBottom:10}}>Fill in Ad information .</Text>
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Business Name"
+                        value={businessName}
+                        onChangeText={setBusinessName}
+                        placeholderTextColor="#6C7275"
+                    />
+                    <TextInput
+                        style={styles.input}
+                        placeholder="Ad Purpose"
+                        value={adPurpose}
+                        onChangeText={setAdPurpose}
+                        placeholderTextColor="#6C7275"
+                    />
+
+                </View>
+
                 <View style={styles.orderCard}>
-                    <Image source={require("../../../assets/images/eventdetailsbg.png")} style={styles.image} />
                     <View style={styles.orderDetails}>
                         <View style={styles.orderCardTop}>
-                            <Text style={styles.summaryBody}>{eventName}</Text>
+                            <Text style={styles.summaryBody}>{adType}</Text>
                             <View style={styles.margin2}>
-                                <LocationPinIcon />
-                                <Text style={styles.summaryHead2}>{eventLocation}</Text>
+                                <Text>Ad Location:</Text>
+                                <Text style={styles.summaryHead2}>{location}</Text>
                             </View>
                             <View style={styles.margin2}>
-                                <TimeIcon />
+                                <Text>Ad Size:</Text>
+                                <Text style={styles.summaryHead2}>{adSize}</Text>
+                            </View>
+                            <View style={styles.margin2}>
+                                <Text>Ad Price per unit:</Text>
+                                <Text style={styles.summaryHead2}>N{adPrice}</Text>
+                            </View>
+                            <View style={styles.margin2}>
+                                <Text>Num of units booked:</Text>
+                                <Text style={styles.summaryHead2}>{quantity}</Text>
+                            </View>
+                            <View style={styles.margin2}>
+                                <Text>Ad Location:</Text>
+                                <Text style={styles.summaryHead2}>{location}</Text>
+                            </View>
+                            <View style={styles.margin2}>
+                               <Text>From:</Text>
                                 <Text style={styles.summaryHead2}>
-                                {`${formattedStartDateTime.month} ${formattedStartDateTime.date}`}
+                                  
+                                  {readableStartDateTime} - {readableEndDateTime}
                                 </Text>
                             </View>
                         </View>
-                        <View style={styles.orderCardMiddle}>
-                            <Text style={styles.summaryHead}>{ticketType} Seat</Text>
-                            <Text style={styles.summaryBody}>N{ticketPrice} x {quantity}</Text>
-                            <Text style={styles.summaryHead}>Additional Fees</Text>
-                            <Text style={styles.summaryBody}>nil</Text>
-                        </View>
-                        <Text style={styles.summaryHead}>Actual Pay</Text>
+                        <Text style={styles.summaryHead}>Full Pay</Text>
                         <Text style={styles.summaryBody}>N{totalPay}</Text>
                     </View>
                 </View>
@@ -164,7 +192,7 @@ const PaymentSummary = () => {
                             },
                             customizations: {
                                 title: 'Flutterwave Developers',
-                                description: `Payment for ${quantity} tickets to ${eventName}`,
+                                description: `Payment for ${quantity} adSpaces at ${location}`,
                                 logo: 'https://res.cloudinary.com/dalbpshky/image/upload/v1/folder_1/yh7e37qms9nftf39m5cf',
                             },
                         }}
@@ -176,7 +204,7 @@ const PaymentSummary = () => {
     );
 };
 
-export default PaymentSummary;
+export default AdPayment;
 
 const styles = StyleSheet.create({
     container: {
@@ -201,7 +229,7 @@ const styles = StyleSheet.create({
     },
     orderCard: {
         backgroundColor: "rgba(245, 245, 245, 1)",
-        marginTop: hp((44 / 812) * 100),
+        marginTop: hp((2 / 812) * 100),
         padding: 10,
         borderRadius: 5,
         borderColor: "gray",
@@ -212,23 +240,25 @@ const styles = StyleSheet.create({
         height: 200
     },
     orderDetails: {
-        marginTop: 20
+        // marginTop: 20
     },
     summaryHead: {
         color: "rgba(119, 119, 119, 1)",
         fontSize: 15,
-        fontWeight: "600"
+        fontWeight: "600",
+        marginTop:20
     },
     summaryHead2: {
         color: "rgba(119, 119, 119, 1)",
-        fontSize: 15,
+        fontSize: 13,
         fontWeight: "600",
         marginLeft: 5
     },
     summaryBody: {
         fontSize: 18,
         fontWeight: "500",
-        color: "rgba(51, 51, 51, 1)"
+        color: "rgba(51, 51, 51, 1)",
+        marginBottom:10
     },
     orderCardTop: {
         borderStyle: 'dashed',
@@ -261,5 +291,13 @@ const styles = StyleSheet.create({
         borderBottomWidth: 1,
         borderColor: "gray",
         marginVertical: 10
+    },
+    input: {
+        height: hp((61 / 812) * 100),
+        borderColor: "rgba(203, 203, 203, 1)",
+        borderWidth: 1,
+        borderRadius: 5,
+        paddingHorizontal: wp((12 / 370) * 100),
+        marginBottom: 20,
     },
 });

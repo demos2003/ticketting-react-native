@@ -11,11 +11,12 @@ import { RootState } from './store';
 type TagTypes = 'Tickets';
 
 const baseQuery = fetchBaseQuery({
-  baseUrl: config.baseURL,
+  baseUrl: config.hostedURL,
   credentials: "include",
   prepareHeaders: (headers, { getState }) => {
     const state = getState() as RootState;
     const token = state.auth.accessToken
+    console.log(token)
 
     if (token) {
       headers.set("Authorization", `Bearer ${token}`);

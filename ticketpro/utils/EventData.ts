@@ -106,16 +106,22 @@ export interface EventProps {
   name: string;
   description: string;
   location: string;
-  startDate: string;
+  startDate: any;
   endDate: string;
   vendorId: string;
   varyingTicketType: boolean;
   totalTicket: number;
-  startTime: string;
+  startTime: any;
   endTime: string;
   numVipTickets: number;
   numRegularTickets: number;
   vip: number;
   vipTicketPrice: number;
   regTicketPrice: number;
+  images: {
+    id: string;
+    name: string | null;
+    url: string;
+  }[];
 }
+

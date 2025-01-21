@@ -62,7 +62,7 @@ const Login = () => {
           <AshjoryLogo />
           <View style={{ marginTop: 24 }}>
             <Text style={{ color: "rgba(51, 51, 51, 1)", fontSize: 17, fontWeight: "700" }}>Welcome Back</Text>
-            <Text style={{ color: "rgba(51, 51, 51, 1)", fontSize: 14, fontWeight: "400" }}>Wetin do you wey you comot, dis guy?! Anyhow sha welcome. You get some events.</Text>
+
           </View>
           <View style={{ marginTop: 17 }}>
             <EmailInput value={email} onChangeText={setEmail} />

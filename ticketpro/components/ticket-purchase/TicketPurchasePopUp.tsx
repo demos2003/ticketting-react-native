@@ -50,7 +50,7 @@ const TicketPurchasePopUp: React.FC<TicketProps> = ({ setTicketModal, event }) =
 
     const goToPaymentSummary = () => {
         router.push({
-            pathname: "payment/paymentsummary",
+            pathname: "/payment/paymentsummary",
             params: {
                 eventName: event.name,
                 eventLocation: event.location,
@@ -72,7 +72,7 @@ const TicketPurchasePopUp: React.FC<TicketProps> = ({ setTicketModal, event }) =
                     <TouchableOpacity onPress={switchToRegular}>
                         <DecrementIcon />
                     </TouchableOpacity>
-                    <Text>{ticketLabel} - ${ticketPrice}</Text>
+                    <Text>{ticketLabel} - N{ticketPrice}</Text>
                     <TouchableOpacity onPress={switchToVip}>
                         <IncrementIcon />
                     </TouchableOpacity>

@@ -39,7 +39,7 @@ const Onboarding = () => {
             <View style={styles.slideContainer}>
               <Text style={styles.welcomeText}>{item.title}</Text>
               <Text style={styles.otherText}>{item.description}</Text>
-              <TouchableOpacity onPress={() => router.push("signup/SignUp")} style={styles.link}>
+              <TouchableOpacity onPress={() => router.push("/signup/SignUp")} style={styles.link}>
                 <Text style={styles.linkText}>Get Started</Text>
               </TouchableOpacity>
             </View>

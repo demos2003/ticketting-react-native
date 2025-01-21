@@ -10,7 +10,6 @@ import ProfileIcon from '@/assets/icons/ProfileIcon';
 import ExploreIcon from '@/assets/icons/ExpoloreIcon';
 import HomeIcon from '@/assets/icons/HomeIcon';
 import TicketIcon from '@/assets/icons/TicketIcon';
-import Favourite from '@/assets/icons/Favourite';
 import Sharedheader from '@/components/tabs-components/Sharedheader';
 import { StatusBar } from 'expo-status-bar';
 
@@ -32,13 +31,15 @@ const TabsLayout = () => {
           tabBarShowLabel: false,
           tabBarStyle: {
             position: "absolute",
+            paddingTop:12,
+            marginLeft:20,
+            marginRight:20,
+            bottom:30,
             backgroundColor: "rgba(63, 81, 181, 1)",
             height: hp((64 / 852) * 100),
-            right: 24,
-            left: 24,
-            bottom: 30,
             borderRadius: 16,
             borderTopWidth: 0,
+            elevation: 10, 
             ...Platform.select({
               ios: {
                 flexDirection: "row",
@@ -93,7 +94,7 @@ const TabsLayout = () => {
             }
           }}
         />
-         <Tabs.Screen name='favourites'
+         {/* <Tabs.Screen name='favourites'
           options={{
             headerShown: false,
             tabBarIcon: ({ focused }) => (
@@ -105,7 +106,7 @@ const TabsLayout = () => {
               handleTabChange('favourites')
             }
           }}
-        />
+        /> */}
         <Tabs.Screen name='profile'
           options={{
             headerShown: false,

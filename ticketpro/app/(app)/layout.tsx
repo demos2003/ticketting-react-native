@@ -11,6 +11,7 @@ export default function AppLayout() {
       <Stack.Screen name="state/stadiums" options={{ headerShown: false }} />
       <Stack.Screen name="adplacement/adplacement" options={{ headerShown: false }} />
       <Stack.Screen name="ticket/ticket" options={{ headerShown: false }} />
+      <Stack.Screen name="organizerdetails/organizerdetails" options={{ headerShown: false }} />
     </Stack>
   );
 }

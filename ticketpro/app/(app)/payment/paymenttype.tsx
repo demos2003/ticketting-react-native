@@ -97,7 +97,7 @@ const PaymentType = () => {
                         </View>
                     </View>
                 </View>
-                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("payment/paymentsummary")}>
+                <TouchableOpacity style={styles.submitLink} onPress={() => router.push("/payment/paymentsummary")}>
                     <Text style={{ color: "white" }}>Continue</Text>
                 </TouchableOpacity>
             </View>

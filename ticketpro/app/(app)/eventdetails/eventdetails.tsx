@@ -15,10 +15,13 @@ import TicketPurchasePopUp from '@/components/ticket-purchase/TicketPurchasePopU
 import AdPlacementPopUp from '@/components/ad-placement/AdPlacementPopUp';
 import { useLocalSearchParams } from 'expo-router';
 import { useGetEventByIdQuery } from '@/api/features/events/eventsSlice';
+import { formatArrayDateTime } from '@/utils/DateTimeFormater';
 
 const EventDetails = () => {
     const { id } = useLocalSearchParams();
     const { data: event, error, isLoading } = useGetEventByIdQuery(id);
+
+    console.log(event)
 
     const [eventlocation, setEventlocation] = useState({
         latitude: 7.1383698,
@@ -30,19 +33,6 @@ const EventDetails = () => {
     const RADIUS = 100;
     const [ticketModal, setTicketModal] = useState(false);
     const [adModal, setAdModal] = useState(false);
-
-    const formatDate = (dateString: string): string => {
-        const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-        return new Date(dateString).toLocaleDateString(undefined, options);
-    };
-
-    const formatTime = (timeString: string): string => {
-        const [hours, minutes] = timeString.split(':').map(Number);
-        const date = new Date();
-        date.setHours(hours, minutes);
-        return date.toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit', hour12: true });
-    };
-
 
     if (isLoading) {
         return (
@@ -60,11 +50,17 @@ const EventDetails = () => {
         );
     }
 
+    // Parse event date and time arrays
+    const formattedStartDateTime = formatArrayDateTime(event.startDate, event.startTime);
+    const formattedEndDateTime = formatArrayDateTime(event.endDate, event.endTime);
+
+    console.log(event.startDate)
+
     return (
         <SafeAreaView style={styles.container}>
             <ImageBackground source={require("../../../assets/images/eventdetailsbg.png")} style={styles.eventDetailsbg}>
                 <View style={styles.navigationHeader}>
-                    <View >
+                    <View>
                         <WhiteBackIcon />
                     </View>
                     <TouchableOpacity onPress={() => setAdModal(true)}>
@@ -83,23 +79,28 @@ const EventDetails = () => {
                     <Text style={{ fontSize: 20.53, color: "rgba(51, 51, 51, 1)", fontWeight: "700", marginBottom: 8 }}>{event.name}</Text>
                     <View style={styles.row}>
                         <LocationPinIcon />
-                        <Text style={styles.rowText}>{event.location}</Text></View>
+                        <Text style={styles.rowText}>{event.location}</Text>
+                    </View>
                     <View style={styles.row}>
                         <View style={styles.row2}>
                             <DateIcon />
-                            <Text style={styles.rowText}>{formatDate(event.startDate)}</Text></View>
+                            <Text style={styles.rowText}>{`${formattedStartDateTime.month} ${formattedStartDateTime.date}`}</Text>
+                        </View>
                         <View style={styles.row}>
                             <TimeIcon />
-                            <Text style={styles.rowText}>{formatTime(event.startTime)} - {formatTime(event.endTime)}</Text>
+                            <Text style={styles.rowText}>
+                                {formattedStartDateTime.time} - {formattedEndDateTime.time}
+                            </Text>
                         </View>
                     </View>
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "400", fontSize: 14 }}>
-                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> {event.description}</Text>
+                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> {event.description}
+                        </Text>
                     </View>
-                    <View style={{ marginTop: 15 }}>
-                        <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>
-                            Location
+                    <View style={{ marginTop: 35 }}>
+                        <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 15 }}>
+                            Need help finding location :
                         </Text>
                         <View style={styles.mapContainer}>
                             <MapView
@@ -115,9 +116,7 @@ const EventDetails = () => {
                                 <Circle center={eventlocation} radius={RADIUS} fillColor={'rgba(249, 121, 165, 0.68)'} strokeColor={'rgba(233, 30, 99, 1)'} />
                             </MapView>
                         </View>
-                        <TouchableOpacity style={styles.submitLink}
-                            onPress={() => setTicketModal(true)}
-                        >
+                        <TouchableOpacity style={styles.submitLink} onPress={() => setTicketModal(true)}>
                             <Text style={{ color: "white" }}>Book Now</Text>
                         </TouchableOpacity>
                     </View>
@@ -191,7 +190,7 @@ const styles = StyleSheet.create({
     },
     submitLink: {
         backgroundColor: "rgba(63, 81, 181, 1)",
-        marginTop: 35,
+        marginTop: 85,
         height: hp((51 / 812) * 100),
         borderRadius: 8,
         display: "flex",

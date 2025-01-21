@@ -29,8 +29,15 @@ const capitalizeFirstLetter = (name: string): string => {
 const HomePage = () => {
   const [userName, setUserName] = useState<string | null>(null);
 
-  const { data: organizers, error: organizersError, isLoading: organizersLoading } = useGetOrganizersQuery({});
-  const { data: events, error: eventsError, isLoading: eventsLoading } = useGetEventsQuery({});
+  const { data: organizers, error: organizersError, isLoading: organizersLoading } = useGetOrganizersQuery({}, {
+    pollingInterval:3000
+  });
+  const { data: events, error: eventsError, isLoading: eventsLoading } = useGetEventsQuery({}, {
+    pollingInterval:3000
+  });
+
+
+  console.log(organizers)
 
   useEffect(() => {
     const fetchUserName = async () => {
@@ -45,7 +52,7 @@ const HomePage = () => {
     fetchUserName();
   }, []);
 
-  console.log(userName)
+
 
 
 
@@ -60,6 +67,8 @@ const formattedName = capitalizeFirstLetter(userName as string);
 
     return { month, date, time };
   };
+
+  // console.log(organizers)
 
   return (
     <ScrollView style={styles.container}>
@@ -76,12 +85,13 @@ const formattedName = capitalizeFirstLetter(userName as string);
           <Text style={{ fontSize: 23, fontWeight: "600", color: "white" }}>Announcements!!!</Text>
         </ImageBackground>
 
+
         <View style={styles.hostSection}>
           <View style={{ display: "flex", flexDirection: "row", justifyContent: "space-between", marginBottom: 16, alignItems: "center" }}>
             <Text style={{ color: "rgba(51, 51, 51, 1)", fontSize: 19, fontWeight: "600" }}>Favourites Hosts</Text>
-            <TouchableOpacity onPress={() => router.push("(tabs)/favourites")}>
+            {/* <TouchableOpacity onPress={() => router.push("(tabs)/favourites")}>
               <Text style={{ color: "rgba(233, 30, 99, 1)", fontSize: 13, fontWeight: "500" }}>See All</Text>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
           {organizersLoading ? (
             <Text>Loading...</Text>
@@ -90,10 +100,10 @@ const formattedName = capitalizeFirstLetter(userName as string);
           ) : (
             <ScrollView horizontal showsHorizontalScrollIndicator={false}>
               {organizers.map((organizer: any) => (
-                <View key={organizer.id} style={{ marginRight: 15 }}>
+                <TouchableOpacity key={organizer.id} style={{ marginRight: 15 }}  onPress={() => router.push(`/organizerdetails/organizerdetails?id=${organizer.id}`)}>
                   <Image source={require("../../../assets/images/Organizer1.png")} />
                   <Text style={{ fontWeight: "600", marginTop: 5 }}>{organizer.state} State</Text>
-                </View>
+                </TouchableOpacity>
               ))}
             </ScrollView>
           )}
@@ -153,7 +163,7 @@ const formattedName = capitalizeFirstLetter(userName as string);
                     <Text style={{ fontSize: 17, fontWeight: "700" }}>{event.Name}</Text>
                     <View style={styles.eventDetails}>
                       <CalendarIcon />
-                      <Text style={{ fontSize: 10, color: "rgba(202, 202, 202, 1)", fontWeight: "600", marginTop: 2 }}>{`${month} ${date} - ${time}`}</Text>
+                      {/* <Text style={{ fontSize: 10, color: "rgba(202, 202, 202, 1)", fontWeight: "600", marginTop: 2 }}>{`${month} ${date} - ${time}`}</Text> */}
                     </View>
                   </View>
                 </View>
