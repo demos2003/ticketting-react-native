@@ -5,12 +5,15 @@ export const adSlice = apiSlice.injectEndpoints({
         getAdSpacedByLocationId: builder.query({
             query:(locationId) => `/ad/location/${locationId}`
         }),
+        getBookedAds: builder.query({
+            query:(userId) => `/ad/adsBooked/${userId}`
+        }),
         bookAd: builder.mutation({
             query: ({
                  quantity, startDate, endDate, businessName, adPurpose, adSpaceId, userId
             }) => {
                 return {
-                    url: `/ad/${userId}/book/${adSpaceId}`,
+                    url: `/ad/${adSpaceId}/book/${userId}`,
                     method:"POST",
                     body:{
                         quantity,
@@ -30,5 +33,6 @@ export const adSlice = apiSlice.injectEndpoints({
 
 export const {
       useGetAdSpacedByLocationIdQuery,
-      useBookAdMutation
+      useBookAdMutation,
+      useGetBookedAdsQuery
 } = adSlice;

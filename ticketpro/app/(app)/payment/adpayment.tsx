@@ -6,14 +6,11 @@ import {
 } from "react-native-responsive-screen";
 import BackNavIcon from '@/assets/icons/BackNavIcon';
 import { router, useLocalSearchParams } from 'expo-router';
-import LocationPinIcon from '@/assets/icons/LocationPinIcon';
-import TimeIcon from '@/assets/icons/TimeIcon';
-import { usePurchaseTicketMutation } from '@/api/features/tickets/ticketSlice';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { PayWithFlutterwave } from 'flutterwave-react-native';
-import { formatArrayDateTime } from '@/utils/DateTimeFormater';
 import { TextInput } from 'react-native';
 import { useBookAdMutation } from '@/api/features/ad/adSlice';
+import { Alert } from 'react-native';
 
 const AdPayment = () => {
     const params = useLocalSearchParams();
@@ -92,11 +89,27 @@ const endDate = endDate1.toISOString().slice(0, 16);
 const handleAdPurchase = async () => {
     try {
         const response = await bookAds({ userId, adSpaceId, quantity, businessName, adPurpose, startDate, endDate }).unwrap();
-        console.log(response);
-        // router.replace("/ticket/ticket");
-    } catch (error) {
-        console.log(error);
-    }
+             console.log('Raw Response:', response);
+        
+                // Check if response contains the success message directly
+                if (response.message === "Ad booked successfully") {
+                    router.push("/(app)/(tabs)/category");
+                } else {
+                    Alert.alert(
+                        "Purchase Failed", 
+                        response.data || "Unable to complete ticket purchase",
+                        [{ text: "OK" }]
+                    );
+                }
+            } catch (error:any) {
+                console.error("Ticket Purchase Error:", error);
+                
+                Alert.alert(
+                    "Error", 
+                    error.message || "An unexpected error occurred",
+                    [{ text: "OK" }]
+                );
+            }
 };
 
 

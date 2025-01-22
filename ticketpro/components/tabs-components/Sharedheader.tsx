@@ -26,7 +26,7 @@ const Sharedheader: React.FC<TabProps> = ({ activeTab, state, stadium }) => {
             case 'tickets':
                 return <Text style={styles.tabNameText}>Bookings</Text>;
             case 'category':
-                return <Text style={styles.tabNameText}>Explore States</Text>;
+                return <Text style={styles.tabNameText}>Ads Booked</Text>;
             default:
                 return (
                     <View style={{ display: "flex", flexDirection: "row", alignItems: "center" }}>
