@@ -102,7 +102,7 @@ const EventDetails = () => {
                         <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 15 }}>
                             Need help finding location :
                         </Text>
-                        <View style={styles.mapContainer}>
+                        {/* <View style={styles.mapContainer}>
                             <MapView
                                 region={eventlocation}
                                 style={{
@@ -115,7 +115,7 @@ const EventDetails = () => {
                                 <Marker coordinate={eventlocation} title="Attendance Location" pinColor='rgba(233, 30, 99, 1)' />
                                 <Circle center={eventlocation} radius={RADIUS} fillColor={'rgba(249, 121, 165, 0.68)'} strokeColor={'rgba(233, 30, 99, 1)'} />
                             </MapView>
-                        </View>
+                        </View> */}
                         <TouchableOpacity style={styles.submitLink} onPress={() => setTicketModal(true)}>
                             <Text style={{ color: "white" }}>Book Now</Text>
                         </TouchableOpacity>

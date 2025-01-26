@@ -12,7 +12,10 @@
       "android": {
         "buildType": "apk"
       },
-      "distribution": "internal"
+      "distribution": "internal",
+      "env": {
+        "NPM_FLAGS": "--legacy-peer-deps"
+      }
     },
     "preview2": {
       "android": {
