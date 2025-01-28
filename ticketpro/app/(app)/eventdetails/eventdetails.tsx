@@ -82,40 +82,44 @@ const EventDetails = () => {
                         <Text style={styles.rowText}>{event.location}</Text>
                     </View>
                     <View style={styles.row}>
-                        <View style={styles.row2}>
-                            <DateIcon />
-                            <Text style={styles.rowText}>{`${formattedStartDateTime.month} ${formattedStartDateTime.date}`}</Text>
+                        <View style={styles.minicard}>
+                            <View style={styles.row2}>
+                                <DateIcon />
+                                <Text style={styles.rowText}>{`${formattedStartDateTime.month} ${formattedStartDateTime.date}`}</Text>
+                            </View>
                         </View>
-                        <View style={styles.row}>
-                            <TimeIcon />
-                            <Text style={styles.rowText}>
-                                {formattedStartDateTime.time} - {formattedEndDateTime.time}
-                            </Text>
+                        <View style={styles.minicard}>
+                            <View style={styles.row}>
+                                <TimeIcon />
+                                <Text style={styles.rowText}>
+                                    {formattedStartDateTime.time} - {formattedEndDateTime.time}
+                                </Text>
+                            </View>
                         </View>
                     </View>
                     <View style={{ marginTop: 15 }}>
                         <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "400", fontSize: 14 }}>
-                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> {event.description}
+                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 16 }}>About Event:</Text> {event.description}, the match between thet two teams is a very highly anticipated match on the road to the final. If you are a big Iwobi fan get your tickets immediately.
                         </Text>
                     </View>
                     <View style={{ marginTop: 35 }}>
-                        <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "700", fontSize: 15 }}>
-                            Need help finding location :
-                        </Text>
-                        {/* <View style={styles.mapContainer}>
-                            <MapView
-                                region={eventlocation}
-                                style={{
-                                    height: "100%",
-                                    borderRadius: 20,
-                                    overflow: "hidden"
-                                }}
-                                provider={PROVIDER_GOOGLE}
-                            >
-                                <Marker coordinate={eventlocation} title="Attendance Location" pinColor='rgba(233, 30, 99, 1)' />
-                                <Circle center={eventlocation} radius={RADIUS} fillColor={'rgba(249, 121, 165, 0.68)'} strokeColor={'rgba(233, 30, 99, 1)'} />
-                            </MapView>
-                        </View> */}
+                        <View style={styles.card}>
+                            <Text style={{ color: "rgba(91, 91, 91, 1)", fontWeight: "400", fontSize: 16 }}>Capacity</Text>
+                            <Text style={{color: "rgba(91, 91, 91, 1)"}}>Total Capacity: 3000</Text>
+                            <Text style={{color: "rgba(91, 91, 91, 1)", marginTop:15}}>Available Capacity:</Text>
+                            <View style={{ display: "flex", flexDirection: "row", marginTop: 10 }}>
+                                <View style={styles.miniCard1}>
+                                    <Text style={styles.labelBlue}>Vip:</Text>
+                                    <Text style={styles.valueBlue}>200</Text>
+                                </View>
+                                <View style={styles.miniCard2}>
+                                    <Text style={styles.labelPink}>Regular:</Text>
+                                    <Text style={styles.valuePink}>200</Text>
+                                </View>
+                            </View>
+                        </View>
+
+
                         <TouchableOpacity style={styles.submitLink} onPress={() => setTicketModal(true)}>
                             <Text style={{ color: "white" }}>Book Now</Text>
                         </TouchableOpacity>
@@ -190,11 +194,72 @@ const styles = StyleSheet.create({
     },
     submitLink: {
         backgroundColor: "rgba(63, 81, 181, 1)",
-        marginTop: 85,
+        marginTop: 35,
         height: hp((51 / 812) * 100),
         borderRadius: 8,
         display: "flex",
         alignItems: "center",
         justifyContent: "center"
+    },
+    minicard: {
+        backgroundColor: "#f9f9f9",
+        borderRadius: 10,
+        padding: 5,
+        marginBottom: 15,
+        borderColor: 'rgba(238, 238, 238, 1)',
+        borderWidth: 1,
+        marginTop:15,
+        marginRight:10
+    },
+    card: {
+        backgroundColor: "#f9f9f9",
+        borderRadius: 10,
+        padding: 15,
+        marginBottom: 15,
+        borderColor: 'rgba(238, 238, 238, 1)',
+        borderWidth: 1
+    },
+    miniCard1: {
+        width: 80,
+        backgroundColor: 'rgba(59, 130, 246, 0.1)', // Light blue with opacity
+        borderRadius: 10,
+        padding: 5,
+        borderWidth: 1,
+        borderColor: '#3B82F6',
+        display:"flex",
+        flexDirection:'row'
+    },
+    miniCard2: {
+        width: 120,
+        backgroundColor: 'rgba(236, 72, 153, 0.1)', // Light pink with opacity
+        borderRadius: 10,
+        padding: 5,
+        borderWidth: 1,
+        borderColor: '#EC4899',
+        marginLeft: 10,
+        display:"flex",
+        flexDirection:'row'
+    },
+    labelBlue: {
+        color: '#3B82F6',
+        fontSize: 14,
+        marginLeft:3
+    },
+    valueBlue: {
+        color: '#3B82F6',
+        fontWeight: '700',
+        fontSize: 14,
+        marginLeft:3
+    },
+    labelPink: {
+        color: '#EC4899',
+        fontSize: 14,
+        marginLeft:3
+    },
+    valuePink: {
+        color: '#EC4899',
+        fontWeight: '700',
+        fontSize: 14,
+        marginLeft:3
     },
 });
